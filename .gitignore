@@ -3,3 +3,5 @@
 /obj/
 /compile_commands.json
 .cache/
+
+src/generated_array.h
