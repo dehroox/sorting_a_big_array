@@ -15,7 +15,8 @@ int compare_integers(const void *a, const void *b);
 
 int main(void) {
     qsort(generated_array, ARRAY_SIZE, sizeof(uint8_t), compare_integers);
-    PRINT_ARRAY(generated_array, ARRAY_SIZE);
+    // PRINT_ARRAY(generated_array, ARRAY_SIZE);
+    // decomment if you want to debug the thingy.
 }
 
 int compare_integers(const void *a, const void *b) {

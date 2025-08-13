@@ -1,7 +1,7 @@
 import random
 
 print("generating 10 million random numbers...")
-array = [random.randint(1, 255) for _ in range(1_000_000)]
+array = [random.randint(1, 255) for _ in range(10_000_000)]
 
 header_filename = "src/generated_array.h"
 print(f"Writing to {header_filename}...")

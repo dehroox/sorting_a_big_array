@@ -5,5 +5,5 @@ if ! command -v hyperfine >/dev/null 2>&1; then
     exit 1
 fi
 
-echo "benchmark release build 20 times:\n\n"
-hyperfine --runs 20 'make run release'
+echo "benchmark release build 10 times:\n\n"
+hyperfine -r 10 -w 3 'make run release'
