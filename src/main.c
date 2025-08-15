@@ -1,65 +1,82 @@
-// #include <stdio.h>
+/*
+  SORTING A BIG AF ARRAY!!!! (10million items specifically) SORTING FUNCTIONS
+  IMPLEMENTED IN THIS PROJECT SHOULD BE 100% SELF CONTAINED!!!!! >:o
+ */
+
 #include "generated_array.h"
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-//  helper macro to print the array contents for debugging
 #define PRINT_ARRAY(arr, length)                                               \
   do {                                                                         \
     printf("Array elements: ");                                                \
-    for (int i = 0; i < length; i++) {                                         \
-      printf("%d ", arr[i]);                                                   \
+    for (size_t i = 0; i < (size_t)(length); i++) {                            \
+      printf("%u ", (unsigned)(arr)[i]);                                       \
     }                                                                          \
     printf("\n");                                                              \
   } while (0)
 
-int compare_integers(const void *a, const void *b);
-
-//  DO NOT INPUT A BLOCK SIZE THAT WILL RESULT IN A CHUNK THAT IS LESS THAN THE
-//  BLOCK SIZE, DO NOT!!
-void block_sort(uint8_t *array, size_t array_size, size_t block_size);
-void insertion_sort(uint8_t *arr, int N);
+static void counting_sort_u8(uint8_t *arr, size_t n);
 
 int main(void) {
-  // The baseline, q sort.
-  // qsort(generated_array, ARRAY_SIZE, sizeof(uint8_t), compare_integers);
-
-  block_sort(generated_array, ARRAY_SIZE, 400);
+  counting_sort_u8(generated_array, ARRAY_SIZE);
 
   // PRINT_ARRAY(generated_array, ARRAY_SIZE);
-  // decomment if you want to debug the thingy.
+  return 0;
 }
 
-int compare_integers(const void *a, const void *b) {
-  return (*(const uint8_t *)a - *(const uint8_t *)b);
-}
+static void counting_sort_u8(uint8_t *restrict arr, size_t n) {
+  size_t counts[256];
+  memset(counts, 0, sizeof(counts));
 
-void insertion_sort(uint8_t *arr, int N) {
+  size_t i = 0;
+  for (; i + 31 < n; i += 32) {
+    counts[arr[i + 0]]++;
+    counts[arr[i + 1]]++;
+    counts[arr[i + 2]]++;
+    counts[arr[i + 3]]++;
+    counts[arr[i + 4]]++;
+    counts[arr[i + 5]]++;
+    counts[arr[i + 6]]++;
+    counts[arr[i + 7]]++;
+    counts[arr[i + 8]]++;
+    counts[arr[i + 9]]++;
+    counts[arr[i + 10]]++;
+    counts[arr[i + 11]]++;
+    counts[arr[i + 12]]++;
+    counts[arr[i + 13]]++;
+    counts[arr[i + 14]]++;
+    counts[arr[i + 15]]++;
+    counts[arr[i + 16]]++;
+    counts[arr[i + 17]]++;
+    counts[arr[i + 18]]++;
+    counts[arr[i + 19]]++;
+    counts[arr[i + 20]]++;
+    counts[arr[i + 21]]++;
+    counts[arr[i + 22]]++;
+    counts[arr[i + 23]]++;
+    counts[arr[i + 24]]++;
+    counts[arr[i + 25]]++;
+    counts[arr[i + 26]]++;
+    counts[arr[i + 27]]++;
+    counts[arr[i + 28]]++;
+    counts[arr[i + 29]]++;
+    counts[arr[i + 30]]++;
+    counts[arr[i + 31]]++;
+  }
+  for (; i < n; ++i) {
+    counts[arr[i]]++;
+  }
 
-  for (int i = 1; i < N; i++) {
-    uint8_t key = arr[i];
-    int j = i - 1;
-
-    while (j >= 0 && arr[j] > key) {
-      arr[j + 1] = arr[j];
-      j = j - 1;
+  size_t offset = 0;
+  for (unsigned v = 0; v < 256; ++v) {
+    size_t c = counts[v];
+    if (c) {
+      memset(arr + offset, (int)v, c);
+      offset += c;
     }
-    arr[j + 1] = key;
   }
-}
-
-//  SORTING FUNCTIONS IMPLEMENTED IN THIS PROJECT SHOULD BE 100% SELF
-//  CONTAINED!!!!! >:o
-void block_sort(uint8_t *array, size_t array_size, size_t block_size) {
-  const size_t block_num = array_size / block_size;
-
-  int i = 0;
-  while (++i < (int)block_num) {
-    insertion_sort(array + ((size_t)i * block_size), (int)block_size);
-  }
-
-  // TODO:
-  // stable and in-place Merging
 }
